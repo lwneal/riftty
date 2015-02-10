@@ -71,8 +71,6 @@ static GLint CreateCheckerTexture()
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     const int W = 512;
-    const uint8_t O = 100;
-    const uint8_t X = 255;
     uint8_t* checker = new uint8_t[W * W];
     int i, j;
     for (i = 0; i < W; i++) {
@@ -330,8 +328,8 @@ void RenderFloor(const Matrixf& projMatrix, const Matrixf& viewMatrix, float hei
         init = true;
     }
 
-    float kOffset = 1000.0f * kFeetToMeters;
-    float kTexOffset = 100.0f;
+    float kOffset = 40.0f * kFeetToMeters;
+    float kTexOffset = 10.0f;
     float attrib[32] = {
         0 - kOffset, 0, 0 - kOffset, 0, 0, 0, 1, 0,
         0 + kOffset, 0, 0 - kOffset, 0 + kTexOffset, 0, 0, 1, 0,
@@ -342,6 +340,8 @@ void RenderFloor(const Matrixf& projMatrix, const Matrixf& viewMatrix, float hei
 
     static uint16_t indices[] = {0, 2, 1, 2, 3, 1};
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
+
+    //RenderScreenAlignedQuad(s_checker, Vector2f(1,1), Vector2f(3,4), Vector2f(5,6));
 }
 
 void RenderScreenAlignedQuad(GLuint texture, Vector2f viewportSize, Vector2f quadPos, Vector2f quadSize)
