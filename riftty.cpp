@@ -43,7 +43,7 @@ extern "C" {
 
 const float kFeetToMeters = 0.3048;
 
-Vector4f s_clearColor(0.0, 0, 0.3, 1);
+Vector4f s_clearColor(0.0, 0.0, 0.0, 1);
 
 // time tracking
 unsigned int s_ticks = 0;
@@ -60,7 +60,7 @@ uint32_t s_fboDepth;
 uint32_t s_fboTex;
 
 // TODO: get height from ovr SDK
-Vector3f s_cameraPos(0, 6 * kFeetToMeters, 0);
+Vector3f s_cameraPos(0, 6 * kFeetToMeters, 1.0f);
 
 void TermConfigInit()
 {
@@ -69,7 +69,7 @@ void TermConfigInit()
     // load config from ~/.riftty
     struct passwd *pw = getpwuid(getuid());
     const char *homedir = pw->pw_dir;
-    char config_filename[512];
+    char config_filename[512]; // TODO: Buffer overflow
     strncpy(config_filename, homedir, 512);
     strncat(config_filename, "/.riftty", 512);
     load_config(config_filename);

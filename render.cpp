@@ -193,9 +193,9 @@ void RenderText(const std::vector<gb::Quad>& quadVec)
 
         Vector4f bg_color = UintColorToVector4(data->bg_color);
         // TODO: but this in cfg
-        bg_color.w = 0.85f;
+        bg_color.w = 0.95f;
 
-        uint32_t y_offset = data->line_height / 3; // hack
+        uint32_t y_offset = data->line_height * 0.33f; // hack
         Vector2f origin = Vector2f(quad.pen.x, quad.pen.y + y_offset);
         Vector2f size = Vector2f(data->max_advance, -(float)data->line_height);
 
