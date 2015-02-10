@@ -11,6 +11,23 @@ Built with Oculus SDK 0.4.1 for DK2 support.
 
 [riftty.zip](http://www.hyperlogic.org/riftty.zip) - For MacOSX 10.9
 
+## Building
+
+    brew install sdl2
+    brew install harfbuzz
+
+    git clone https://github.com/hyperlogic/riftty
+
+    # Ensure that OculusSDK is available in riftty/../OculusSDK
+    cd riftty
+    mv ~/Downloads/OculusSDK ..
+
+    git submodule init
+    git submodule update --init
+
+    rake
+
+
 ## Configuration
 
 To customize the configuraiton create a `.riffty` file in your home directory.
