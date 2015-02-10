@@ -77,17 +77,7 @@ static GLint CreateCheckerTexture()
     int i, j;
     for (i = 0; i < W; i++) {
         for (j = 0; j < W; j++) {
-            if (i < W/2) {
-                if (j < W/2)
-                    checker[i * W + j] = O;
-                else
-                    checker[i * W + j] = X;
-            } else {
-                if (j < W/2)
-                    checker[i * W + j] = X;
-                else
-                    checker[i * W + j] = O;
-            }
+            checker[i * W + j] = rand();
         }
     }
 
@@ -313,7 +303,7 @@ void RenderFloor(const Matrixf& projMatrix, const Matrixf& viewMatrix, float hei
     s_phongTexturedShader->setFullMat(projMatrix * viewMatrix * worldMatrix);
     s_phongTexturedShader->setWorldMat(worldMatrix);
     s_phongTexturedShader->setWorldNormalMat(normalMatrix);
-    s_phongTexturedShader->setColor(Vector4f(1, 1, 1, 1));
+    s_phongTexturedShader->setColor(Vector4f(0, 1, 0, 1));
     s_phongTexturedShader->setTex(s_checker);
 
     static bool init = false;
