@@ -7,6 +7,7 @@
 #endif
 
 #include <stdio.h>
+#include <time.h>
 #include <string>
 #include "keyboard.h"
 #include "opengl.h"
@@ -253,6 +254,13 @@ void Process(float dt)
     child_poll();
 }
 
+static Quatf quat_rot(double pitch, double yaw, double roll) {
+  return (Quatf::AxisAngle(Vector3f(1, 0, 0), pitch) *
+    Quatf::AxisAngle(Vector3f(0, 1, 0), yaw) *
+    Quatf::AxisAngle(Vector3f(0, 0, 1), roll));
+}
+
+
 void Render(float dt)
 {
     static unsigned int frameIndex = 0;
@@ -343,21 +351,29 @@ void Render(float dt)
         Matrixf anchorMatrix = Matrixf::Trans(-anchorOffset);
         Matrixf posMat = Matrixf::Trans(termOrigin);
         const Vector3f scale(termScale, -termScale, termScale);
-        Matrixf modelMatrix = posMat * Matrixf::ScaleQuatTrans(scale, rot, Vector3f(0,0,0)) * anchorMatrix;
 
         //Matrixf modelMatrix = Matrixf::ScaleQuatTrans(scale, rot, termOrigin);
 
 
-        RenderTextBegin(projMatrix, viewMatrix, modelMatrix);
         for (int j = 0; j < win_get_text_count(); j++)
         {
             gb::Text* text = (gb::Text*)win_get_text(j);
             if (text)
             {
+                Matrixf modelMatrix = posMat * Matrixf::ScaleQuatTrans(scale, rot, Vector3f(0,0,0)) * anchorMatrix;
+                RenderTextBegin(projMatrix, viewMatrix, modelMatrix);
                 RenderText(text->GetQuadVec());
+
+                Quatf rot = quat_rot(0, 3.14/4, 0);
+                modelMatrix = posMat * Matrixf::ScaleQuatTrans(scale, rot, Vector3f(0,0,0)) * anchorMatrix;
+                double now = 1.0 * clock() / CLOCKS_PER_SEC;
+                double movez = 3.0 * sin(now);
+                modelMatrix = Matrixf::Trans(Vector3f(-3,0,movez)) * modelMatrix;
+                RenderTextBegin(projMatrix, viewMatrix, modelMatrix);
+                RenderText(text->GetQuadVec());
+                RenderTextEnd();
             }
         }
-        RenderTextEnd();
 
         RenderEnd();
     }
